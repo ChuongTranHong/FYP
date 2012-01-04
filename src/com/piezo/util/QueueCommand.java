@@ -37,23 +37,9 @@ public class QueueCommand  {
 		return null;
 	}
 
-
-
-	
-
-	
-
 	public static int size() {
 		// TODO Auto-generated method stub
 		return listCommand.size();
 	}
-
-	
-
-
-
-	
-
-
 
 }

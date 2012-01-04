@@ -20,11 +20,9 @@ public class Bomb extends CuttingObject{
 		lifeSpan=Config.asShort("bomb.LifeSpan", (short) 10);
 		currentLife=lifeSpan;
 		texture=new Texture(Gdx.files.internal(Config.asString("bombTexture")));
-//		texture=new Texture(Gdx.files.internal("data/bomb.png"));
 		textureRegion = new TextureRegion(texture);
 		initTimer = Config.asByte("bomb.Timer", (byte) 5);
 		timer = new Timer(initTimer);
-
 		this.x=0;
 		this.y=0;
 		this.width=0;

@@ -20,7 +20,6 @@ public class Apple extends CuttingObject {
 	protected final byte DAMAGE_STRONG_FORCE = Config.asByte("apple.StrongDamage", (byte) 10);
 	protected final byte DAMAGE_NORMAL_FORCE =  Config.asByte("apple.NormalDamage", (byte) 5);
 
-
 	public Apple(){
 		lifeSpan =Config.asShort("apple.LifeSpan", (short) 100);
 		currentLife= lifeSpan;
@@ -32,12 +31,7 @@ public class Apple extends CuttingObject {
 		this.x=this.y=this.width=this.height=0;
 		
 	}
-//	public Apple(Pool<TextOutput> pool){
-//		lifeSpan=Config.asShort("apple.LifeSpan", (short) 100);;
-//		currentLife=lifeSpan;
-//		texture=new Texture(Gdx.files.internal(Config.asString("appleTexture")));
-//		this.pool= pool;
-//	}
+
 	public Apple(float x, float y, float width, float height){
 		lifeSpan=Config.asShort("apple.LifeSpan", (short) 100);;
 		currentLife=lifeSpan;
@@ -45,7 +39,6 @@ public class Apple extends CuttingObject {
 		textureRegion = new TextureRegion(texture);
 		initTimer = Config.asByte("apple.Timer", (byte) 10);
 		timer = new Timer(initTimer);
-//		this.pool= pool;
 		this.x=x;
 		this.y=y;
 		this.width=width;

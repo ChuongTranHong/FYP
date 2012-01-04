@@ -42,35 +42,23 @@ public class MainMenu extends GameScreen {
 	Texture texture;
 	private Stage ui;
 	private Table window;
-//	SpriteBatch spriteBatch;private Sprite          bgSprite;
+
 	public MainMenu(final PiezoGame game){
 		
 		this.game=game;
-//		spriteBatch=new SpriteBatch();
-		
-		texture = new Texture(Gdx.files.internal("data/samurai.jpg"));
-		
-//		bgSprite=new Sprite(texture,Gdx.graphics.getWidth() / 2,Gdx.graphics.getHeight() / 2);
-//		TextureRegion image = new TextureRegion(new Texture(Gdx.files.internal(Art.badlogicSmall)));
-		
-		 Image image = new Image(texture);
-		
-//		 libgdx.x=Gdx.graphics.getWidth() / 2;
-//		 libgdx.y=Gdx.graphics.getHeight() / 2;
 		skin = new Skin(Gdx.files.internal("data/uiskin.json"), Gdx.files.internal("data/uiskin.png"));
-	
 	    ui = new Stage(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(), false);
-	    System.out.println(" stage width "+ui.width()+" height "+ui.height());
+	    Gdx.input.setInputProcessor(ui);
+	    
+	    texture = new Texture(Gdx.files.internal("data/samurai.jpg"));
+		Image image = new Image(texture);
+		System.out.println(" stage width "+ui.width()+" height "+ui.height());
 	    System.out.println(" image width "+texture.getWidth()+" height "+texture.getHeight());
 	    float ratiox=ui.width()/texture.getWidth();
 	    float ratioy=ui.height()/texture.getHeight();
 	    System.out.println(" ratio x "+ratiox+ " ratio y "+ratioy);
-//	    Scaling scale;
-//	    scale.apply(image.getImageWidth(), image.getImageHeight(), ui.width(), ui.height());
 	    image.scaleX=ratiox;
 	    image.scaleY=ratioy;
-
-	    Gdx.input.setInputProcessor(ui);
 	    window = new Table("window");
 	    window.width = ui.width();
 	    window.height = ui.height();
@@ -90,7 +78,7 @@ public class MainMenu extends GameScreen {
 				game.setScreen(new ConfigurationScreen(game));
 			}
 		});
-//	    newGame.
+
 	    newGame.setClickListener(new ClickListener() {
 
 
@@ -100,7 +88,7 @@ public class MainMenu extends GameScreen {
 				game.setScreen(new RunningScreen(game));
 			}
 	    });
-//	    Image libgdx = new Image("libgdx", image);
+
 	    window.row().fill(false,false).expand(true,false).padTop(10).padBottom(20);
 	    window.add(title);
 	    
@@ -117,7 +105,7 @@ public class MainMenu extends GameScreen {
 	    Table extras = new Table("extras");
 	    extras.row().fill(false,false).expand(true,true);
 	    extras.add(fps).left().center().pad(0,25,25,0); 
-//	    extras.add(libgdx).right().center().pad(0,0,25,25);
+
 	    window.row().fill(true,false).expand(true,true);
 	    window.add(extras).bottom();  
 	    ui.addActor(image);
@@ -127,21 +115,15 @@ public class MainMenu extends GameScreen {
 		
 	}
 	public void render(float delta) {
-		int centerX = Gdx.graphics.getWidth() / 2;
-		int centerY = Gdx.graphics.getHeight() / 2;
-	
+
 		// TODO Auto-generated method stub
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
 	    Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 	    ((Label)ui.findActor("fps")).setText("fps: " + Gdx.graphics.getFramesPerSecond());  
 	    ui.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-	    
 	    Table.drawDebug(ui);
-//	    spriteBatch.begin();
-//		spriteBatch.draw(texture, centerX - texture.getWidth() / 2, centerY - texture.getHeight() / 2+40, 0, 0, texture.getWidth(),
-//				texture.getHeight());
 		ui.draw();
-//	    spriteBatch.end();
+
 	}
 
 	public void resize(int width, int height) {

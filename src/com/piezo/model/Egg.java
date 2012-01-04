@@ -25,11 +25,9 @@ public class Egg extends CuttingObject {
 		currentLife=lifeSpan;
 		
 		texture=new Texture(Gdx.files.internal(Config.asString("eggTexture")));
-//		 texture = new Texture(Gdx.files.internal("data/egg.png"));
 		textureRegion= new TextureRegion(texture,0,0,200,256);
 		initTimer = Config.asByte("egg.Timer", (byte) 10);
 		timer= new Timer(initTimer);
-
 		this.x=0;
 		this.y=0;
 		this.width=0;
@@ -43,7 +41,6 @@ public class Egg extends CuttingObject {
 		textureRegion= new TextureRegion(texture,0,0,200,256);
 		initTimer = Config.asByte("egg.Timer", (byte) 10);
 		timer= new Timer(initTimer);
-
 		this.x=x;
 		this.y=y;
 		this.width=width;

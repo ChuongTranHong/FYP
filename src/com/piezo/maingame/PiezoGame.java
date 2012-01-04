@@ -1,16 +1,5 @@
 package com.piezo.maingame;
 
-
-import ioio.lib.api.AnalogInput;
-import ioio.lib.api.DigitalOutput;
-import ioio.lib.api.IOIO;
-import ioio.lib.api.exception.ConnectionLostException;
-import ioio.lib.util.AbstractIOIOActivity;
-
-import android.content.Context;
-import android.os.PowerManager;
-
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
