@@ -29,21 +29,21 @@ public class Egg extends CuttingObject {
 		textureRegion= new TextureRegion(texture,0,0,200,256);
 		initTimer = Config.asByte("egg.Timer", (byte) 10);
 		timer= new Timer(initTimer);
-		this.pool= null;
+
 		this.x=0;
 		this.y=0;
 		this.width=0;
 		this.height=0;
 	}
 	
-	public Egg(Pool<TextOutput> pool,float x, float y, float width,float height){
+	public Egg(float x, float y, float width,float height){
 		lifeSpan =Config.asShort("egg.LifeSpan", (short) 50);
 		currentLife=lifeSpan;
 		texture=new Texture(Gdx.files.internal(Config.asString("eggTexture")));
 		textureRegion= new TextureRegion(texture,0,0,200,256);
 		initTimer = Config.asByte("egg.Timer", (byte) 10);
 		timer= new Timer(initTimer);
-		this.pool= pool;
+
 		this.x=x;
 		this.y=y;
 		this.width=width;
@@ -60,7 +60,7 @@ public class Egg extends CuttingObject {
 		// TODO Auto-generated method stub
 		if(currentLife<=0) return false;
 		if(typeCut== Command.NOCOMMAND || typeCut==Command.UNDETERMINED)return false;
-		TextOutput temp = pool.obtain();
+		TextOutput temp = PoolStore.textPool.obtain();
 		temp.x=0;
 		temp.y=0;
 		if(typeCut== Command.STRONG_SHORT_FORCE){

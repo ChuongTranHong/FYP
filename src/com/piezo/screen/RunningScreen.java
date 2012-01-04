@@ -52,7 +52,7 @@ public class RunningScreen extends GameScreen {
 	int screenHeight, screenWidth;
 	PiezoGame app;
 	List<CuttingObject> objectList;
-	Pool<TextOutput> pool;
+//	Pool<TextOutput> pool;
 	Sound sound;
 	SpriteBatch spriteBatch;
 	TextureRegion region, background,sword;
@@ -79,15 +79,6 @@ public class RunningScreen extends GameScreen {
 		sound = Gdx.audio.newSound(Gdx.files.internal(Config
 				.asString("knifeSound")));
 
-		pool = new Pool<TextOutput>(8, 16) {
-
-			@Override
-			protected TextOutput newObject() {
-				// TODO Auto-generated method stub
-				return new TextOutput(null, 0, 0);
-			}
-
-		};
 		background = new TextureRegion(new Texture(Gdx.files.internal(Config
 				.asString("backgroundTexture"))));
 		cutleft = new TextureRegion(new Texture((Gdx.files.internal(Config
@@ -97,8 +88,8 @@ public class RunningScreen extends GameScreen {
 		sword = new TextureRegion(new Texture(Gdx.files.internal("data/sword1.png")));
 		objectList = new ArrayList<CuttingObject>();
 		objectList
-				.add(new Apple(pool, 0, 0, screenWidth / 2, screenHeight - 50));
-		objectList.add(new Egg(pool, screenWidth / 2, 0, screenWidth / 2,
+				.add(new Apple( 0, 0, screenWidth / 2, screenHeight - 50));
+		objectList.add(new Egg(screenWidth / 2, 0, screenWidth / 2,
 				screenHeight - 50));
 		if (Setting.debug)
 			voltageDiagram = new VoltageDiagram(screenWidth / 2, 0,
@@ -286,8 +277,7 @@ public class RunningScreen extends GameScreen {
 
 	public void resume() {
 		// TODO Auto-generated method stub
-//		ioio_thread = createIOIOThread();
-//		ioio_thread.start();
+
 		System.out.println("ioio thread start ");
 	}
 
@@ -301,7 +291,7 @@ public class RunningScreen extends GameScreen {
 			}
 			System.out.println("end on Pause");
 		}
-		sound.dispose();
+//		sound.dispose();
 	}
 
 	@Override

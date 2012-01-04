@@ -4,12 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
@@ -29,6 +31,7 @@ public class ConfigurationScreen extends GameScreen{
 	Skin skin;
 	Stage ui;
 	private Table window;
+
 	public ConfigurationScreen(final PiezoGame game){
 		this.game=game;
 		skin = new Skin(Gdx.files.internal("data/uiskinconfig.json"), Gdx.files.internal("data/uiskin.png"));		
@@ -40,6 +43,13 @@ public class ConfigurationScreen extends GameScreen{
 	    window.x = 0;
 	    window.y = 0;
 	    window.debug();
+	    Texture texture = new Texture(Gdx.files.internal("data/optionbackground.jpg"));
+	    Image background = new Image(texture);
+	    float ratiox=ui.width()/texture.getWidth();
+	    float ratioy=ui.height()/texture.getHeight();
+	    background.scaleX=ratiox;
+	    background.scaleY=ratioy;
+	    ui.addActor(background);
 //	    BitmapFont font=new BitmapFont(Gdx.files.internal("data/verdana39.fnt"),Gdx.files.internal("data/verdana39.png"),false);
 //	    LabelStyle style=new LabelStyle(font, new Color());
 	    Label musicLabel=new Label("Music volume",skin.getStyle(LabelStyle.class),"music");

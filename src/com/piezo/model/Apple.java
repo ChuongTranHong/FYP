@@ -30,22 +30,22 @@ public class Apple extends CuttingObject {
 		initTimer = Config.asByte("apple.Timer", (byte) 10);
 		timer = new Timer(initTimer);
 		this.x=this.y=this.width=this.height=0;
-		pool=null;
+		
 	}
-	public Apple(Pool<TextOutput> pool){
-		lifeSpan=Config.asShort("apple.LifeSpan", (short) 100);;
-		currentLife=lifeSpan;
-		texture=new Texture(Gdx.files.internal(Config.asString("appleTexture")));
-		this.pool= pool;
-	}
-	public Apple(Pool<TextOutput> pool,float x, float y, float width, float height){
+//	public Apple(Pool<TextOutput> pool){
+//		lifeSpan=Config.asShort("apple.LifeSpan", (short) 100);;
+//		currentLife=lifeSpan;
+//		texture=new Texture(Gdx.files.internal(Config.asString("appleTexture")));
+//		this.pool= pool;
+//	}
+	public Apple(float x, float y, float width, float height){
 		lifeSpan=Config.asShort("apple.LifeSpan", (short) 100);;
 		currentLife=lifeSpan;
 		texture=new Texture(Gdx.files.internal(Config.asString("appleTexture")));
 		textureRegion = new TextureRegion(texture);
 		initTimer = Config.asByte("apple.Timer", (byte) 10);
 		timer = new Timer(initTimer);
-		this.pool= pool;
+//		this.pool= pool;
 		this.x=x;
 		this.y=y;
 		this.width=width;
@@ -62,7 +62,7 @@ public class Apple extends CuttingObject {
 		// TODO Auto-generated method stub
 		if(currentLife<=0) return false;
 		if(typeCut== Command.NOCOMMAND || typeCut==Command.UNDETERMINED)return false;
-		TextOutput temp = pool.obtain();
+		TextOutput temp = PoolStore.textPool.obtain();
 		temp.x=0;
 		temp.y=0;
 		if(typeCut== Command.STRONG_SHORT_FORCE){

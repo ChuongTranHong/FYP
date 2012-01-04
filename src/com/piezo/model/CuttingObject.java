@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Pool;
 import com.piezo.util.Config;
+import com.piezo.util.PoolStore;
 import com.piezo.util.TextOutput;
 import com.piezo.util.Timer;
 
@@ -22,7 +23,7 @@ public abstract class CuttingObject {
 	Timer timer;
 	float x,y,width,height;
 	byte cutStep=0;
-	protected Pool<TextOutput> pool;
+//	protected Pool<TextOutput> pool;
 	protected  short  lifeSpan;
 	protected short currentLife;
 	protected List<TextOutput> textOutList=new ArrayList<TextOutput>();
@@ -59,7 +60,7 @@ public abstract class CuttingObject {
 			temp.y +=2;
 			if(temp.y == 20){
 				textOutList.remove(index);
-				pool.free(temp);
+				PoolStore.textPool.free(temp);
 			}
 		}
 		if(cutLeft){
@@ -79,9 +80,9 @@ public abstract class CuttingObject {
 		}
 		
 	}
-	public void setPool(Pool<TextOutput> pool){
-		this.pool=pool;
-	}
+//	public void setPool(Pool<TextOutput> pool){
+//		this.pool=pool;
+//	}
 	public void decreaseTime(){
 		timer.decreaseTime();
 	}
@@ -102,7 +103,7 @@ public abstract class CuttingObject {
 		this.y=object.y;
 		this.width= object.width;
 		this.height= object.height;
-		this.pool= object.pool;
+	
 	}
 	public void reset(){
 		currentLife=lifeSpan;
@@ -112,7 +113,7 @@ public abstract class CuttingObject {
 		cutLeft=false;
 		cutRight=false;
 		while(textOutList.size()>0){
-			pool.free(textOutList.get(0));
+			PoolStore.textPool.free(textOutList.get(0));
 			textOutList.remove(0);
 		}
 		

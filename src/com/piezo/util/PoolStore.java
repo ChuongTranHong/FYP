@@ -19,6 +19,15 @@ public class PoolStore {
 		}
 		
 	};
+	public static Pool<TextOutput> textPool = new Pool<TextOutput>(){
+
+		@Override
+		protected TextOutput newObject() {
+			// TODO Auto-generated method stub
+			return new TextOutput(null, 0, 0);
+		}
+		
+	};
 	public static Pool<Apple> applePool =new Pool<Apple>(){
 
 		@Override

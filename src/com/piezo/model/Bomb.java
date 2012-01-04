@@ -24,21 +24,21 @@ public class Bomb extends CuttingObject{
 		textureRegion = new TextureRegion(texture);
 		initTimer = Config.asByte("bomb.Timer", (byte) 5);
 		timer = new Timer(initTimer);
-		this.pool= null;
+
 		this.x=0;
 		this.y=0;
 		this.width=0;
 		this.height=0;
 		bomb=true;
 	}
-	public Bomb(Pool<TextOutput> pool,float x, float y, float width, float height){
+	public Bomb(float x, float y, float width, float height){
 		lifeSpan=Config.asShort("bomb.LifeSpan", (short) 10);
 		currentLife=lifeSpan;
 		texture=new Texture(Gdx.files.internal(Config.asString("bombTexture")));
 		textureRegion = new TextureRegion(texture);
 		initTimer = Config.asByte("bomb.Timer", (byte) 5);
 		timer = new Timer(initTimer);
-		this.pool= pool;
+
 		this.x=x;
 		this.y=y;
 		this.width=width;
