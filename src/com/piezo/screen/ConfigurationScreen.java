@@ -82,6 +82,9 @@ public class ConfigurationScreen extends GameScreen {
 		
 		
 		
+		
+		
+		
 		Button trainingButton = new TextButton("Training",
 				skin.getStyle(TextButtonStyle.class), "training");
 		Button resetButton = new TextButton("Reset",
