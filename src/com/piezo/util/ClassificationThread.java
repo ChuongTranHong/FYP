@@ -25,7 +25,10 @@ public class ClassificationThread extends Thread{
 //				 System.out.println("in the mchildhandler value "+data.value+" inver "+data.valueInver);
 				returnState = buffer
 						.insertData(data.value, data.valueInver);
-				if( RunningScreen.voltageDiagram!=null) RunningScreen.voltageDiagram.addVertex(data.value,data.valueInver);
+				if( RunningScreen.voltageDiagram!=null) {
+					System.out.println("add value to voltage diagram");
+					RunningScreen.voltageDiagram.addVertex(data.value,data.valueInver);
+				}
 //				diagram.insertValue(data.value, data.valueInver, index,returnState);
 				if (returnState.compareTo( currentState)!=0 ){
 					if(returnState.currentCommand==Command.NORMAL_SHORT_FORCE||
