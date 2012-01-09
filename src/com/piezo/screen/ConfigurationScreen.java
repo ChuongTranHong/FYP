@@ -13,10 +13,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectionListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox.SelectBoxStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider.ValueChangedListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -104,6 +107,18 @@ public class ConfigurationScreen extends GameScreen {
 				else System.out.println("not in debug");
 			}
 		});
+		SelectBox dropdown = new SelectBox(new String[] {"Piezo", "Touch Screen", "Accelerometer"},
+				skin.getStyle(SelectBoxStyle.class), "inputType");
+		dropdown.setSelection(Setting.inputType);
+		dropdown.setSelectionListener(new SelectionListener(){
+
+			@Override
+			public void selected(Actor actor, int index, String value) {
+				// TODO Auto-generated method stub
+				Setting.inputType=(byte)index;
+			}
+			
+		});
 		window.align("top");
 		window.padLeft(20).padTop(20);
 		window.padRight(20);
@@ -121,6 +136,8 @@ public class ConfigurationScreen extends GameScreen {
 		window.add(resetButton).align("left");
 		window.row().padBottom(10).padTop(10);
 		window.add(checkBox).align("left");
+		window.row().padBottom(10).padTop(10);
+		window.add(dropdown).align("left");
 		ui.addActor(window);
 		backButton.align("bottom").align("left");
 		backButton.padTop(10).padBottom(10).padRight(20).padLeft(10);

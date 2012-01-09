@@ -55,7 +55,8 @@ public class RunningScreen extends GameScreen {
 	int swordX = 50;
 	public static VoltageDiagram voltageDiagram;
 	byte index;
-
+	boolean getAcceleration = false;
+	float lastYAccel=0,currentYAccel=0,differentAccel=0;;
 	public RunningScreen(final PiezoGame game) {
 		screenHeight = Gdx.graphics.getHeight();
 		screenWidth = Gdx.graphics.getWidth();
@@ -124,41 +125,27 @@ public class RunningScreen extends GameScreen {
 			lastTime = currentTime;
 
 		}
+		update();
 
-		if (Gdx.input.justTouched()) {
-			int x = Gdx.input.getX();
-			Command command = PoolStore.commandPool.obtain();
-			command.currentCommand= Command.NORMAL_SHORT_FORCE;
-			if (x > screenWidth / 2) {
-				
-				command.left = false;
-				commandRight(command);
-			} else {
-				command.left = true;
-				commandLeft(command);
-			}
-			PoolStore.commandPool.free(command);
-			// System.out.println(" x "+x+" y " + y);
-		}
-
-		if (QueueCommand.size() > 0) {
-			Command command = QueueCommand.deQueue();
-			 System.out.println("dequeue new command");
-//			if(command.left){
-//				System.out.println(" cut left");
-//				commandLeft(command);
-//				
-//			}else{
-//				System.out.println("cut right");
-//				commandRight(command);
-//			}
-			if (objectList.get(0).takeCut(command.currentCommand, command.left))
-				running = true;
-			else
-				running = false;
-			sound.play(Setting.sound);
-			PoolStore.commandPool.free(command);
-		}
+		
+//		if (QueueCommand.size() > 0) {
+//			Command command = QueueCommand.deQueue();
+//			 System.out.println("dequeue new command");
+////			if(command.left){
+////				System.out.println(" cut left");
+////				commandLeft(command);
+////				
+////			}else{
+////				System.out.println("cut right");
+////				commandRight(command);
+////			}
+//			if (objectList.get(0).takeCut(command.currentCommand, command.left))
+//				running = true;
+//			else
+//				running = false;
+//			sound.play(Setting.sound);
+//			PoolStore.commandPool.free(command);
+//		}
 
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
@@ -168,8 +155,7 @@ public class RunningScreen extends GameScreen {
 		spriteBatch.draw(background, 0, 0, screenWidth, screenHeight);
 		spriteBatch.enableBlending();
 		objectList.get(0).draw(spriteBatch, font, cutleft, cutRight);
-//		if (Setting.debug)
-//			voltageDiagram.render(spriteBatch);
+
 		if (!Setting.debug) {
 
 			objectList.get(1).draw(spriteBatch, font, cutleft, cutRight);
@@ -321,9 +307,88 @@ public class RunningScreen extends GameScreen {
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
+		switch (Setting.inputType) {
+		case Setting.ACCELEROMETER:
+			accelerometerInput();
+			break;
 
+		case Setting.TOUCHSCREEN:
+			touchScreenInput();
+			break;
+		default:
+			piezoInput();
+		}
 	}
-
+	private void touchScreenInput(){
+		if (Gdx.input.justTouched()) {
+//			int x = Gdx.input.getX();
+			Command command = PoolStore.commandPool.obtain();
+			command.currentCommand= Command.NORMAL_SHORT_FORCE;
+			if (Gdx.input.getX() > screenWidth / 2) {
+				
+				command.left = false;
+				commandRight(command);
+			} else {
+				command.left = true;
+				commandLeft(command);
+			}
+			PoolStore.commandPool.free(command);
+			// System.out.println(" x "+x+" y " + y);
+		}
+	}
+	private void accelerometerInput(){
+		currentYAccel = Gdx.input.getAccelerometerY();
+		differentAccel = currentYAccel- lastYAccel;
+		System.out.println("different accel "+ differentAccel);
+		if(Math.abs(differentAccel)<1) getAcceleration =false;
+		else {
+			if(!getAcceleration){
+				Command command =PoolStore.commandPool.obtain();
+				if(Math.abs(differentAccel)<2){
+					command.currentCommand = Command.NORMAL_SHORT_FORCE;
+					
+				}else command.currentCommand = Command.STRONG_SHORT_FORCE;
+				if(differentAccel < 0 )command.left =true;
+				else command.left = false;
+				objectList.get(0).takeCut(command.currentCommand, command.left);
+				PoolStore.commandPool.free(command);
+				getAcceleration=true;
+			}
+		}
+		lastYAccel =currentYAccel;
+		/*if((int)Gdx.input.getAccelerometerY()<0 && !getAcceleration){
+			objectList.get(0).takeCut(Command.NORMAL_SHORT_FORCE, true);
+//			System.out.println("acceleration left");
+			getAcceleration= true;
+		}else if((int)Gdx.input.getAccelerometerY()>0 && ! getAcceleration){
+			objectList.get(0).takeCut(Command.NORMAL_SHORT_FORCE, false);
+//			System.out.println("acceleration right");
+			getAcceleration= true;
+		}else if((int)Gdx.input.getAccelerometerY()==0){
+//			System.out.println("reset acceleration");
+			getAcceleration = false;
+		}*/
+	}
+	private void piezoInput(){
+		if (QueueCommand.size() > 0) {
+			Command command = QueueCommand.deQueue();
+			 System.out.println("dequeue new command");
+//			if(command.left){
+//				System.out.println(" cut left");
+//				commandLeft(command);
+//				
+//			}else{
+//				System.out.println("cut right");
+//				commandRight(command);
+//			}
+			if (objectList.get(0).takeCut(command.currentCommand, command.left))
+				running = true;
+			else
+				running = false;
+			sound.play(Setting.sound);
+			PoolStore.commandPool.free(command);
+		}
+	}
 	protected IOIOThread createIOIOThread() {
 		return new IOIOThreadExt();
 	}
