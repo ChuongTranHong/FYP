@@ -67,9 +67,9 @@ public class IOIOThreadExt extends IOIOThread{
 		try {
 			float reading = input_.getVoltage();
 			float reading33 = input_33.getVoltage();
-			if (reading < 0.3)
+			if (reading < 1)
 				reading = 0;
-			if (reading33 < 0.3)
+			if (reading33 < 1)
 				reading33 = 0;
 			final float display1 = (float) (Math.round((reading * 100)) / 100.0);
 			final float display2 = (float) (Math.round((reading33 * 100)) / 100.0);
