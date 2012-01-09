@@ -32,8 +32,8 @@ public class BufferData {
 	private short timeStep = 5;// 0.25 second
 	private final float STRONG_FORCE_THRESHOLD = 3f;
 	private short lastCommandLeftIndex=-1,lastCommandRightIndex=-1;
-	private final float NORMAL_FORCE_UPPER_BOUND_THRESHOLD = 3.2f;
-	private final float NORMAL_FORCE_LOWER_BOUND_THRESHOLD = 1f;
+	private final float NORMAL_FORCE_UPPER_BOUND_THRESHOLD = 3f;
+	private final float NORMAL_FORCE_LOWER_BOUND_THRESHOLD = 1;
 	private final float WEAK_FORCE_THRESHOLD = 1.5f;
 	private final short STRONG_TIME_THRESHOLD = 4;
 	private final short NORMAL_TIME_THRESHOLD = 10;
@@ -236,17 +236,18 @@ public class BufferData {
 				% bufferLength;
 		System.out.println("max Index left "+maxIndexLeft);
 		int distanceFromLastCommand= (maxIndexLeft - lastCommandLeftIndex+bufferLength) % bufferLength;
-		if(distanceFromLastCommand < 6 ){
+		if(distanceFromLastCommand < 10 ){
 			System.out.println("distace left "+distanceFromLastCommand+" lastcommd "+lastCommandLeftIndex);
 			return;
 		}
 		 distanceFromLastCommand=(maxIndexLeft - lastCommandRightIndex+bufferLength)% bufferLength;
-		if(distanceFromLastCommand<3){
+		if(distanceFromLastCommand<5){
 			System.out.println("distance left from right "+distanceFromLastCommand + " last command right "+lastCommandRightIndex);
 			return;
 		}
 		if ((value[maxIndexLeft] > STRONG_FORCE_THRESHOLD
-				&& deltaIndex <= STRONG_TIME_THRESHOLD) || (value[maxIndexLeft]>=3.29 && !alreadyClassify)){
+				&& deltaIndex <= STRONG_TIME_THRESHOLD) ){
+//				|| (value[maxIndexLeft]>=3.29 && !alreadyClassify)){
 //				&& deltaIndex>1) {
 			command.index=maxIndexLeft;
 			lastCommandLeftIndex=maxIndexLeft;
@@ -277,17 +278,18 @@ public class BufferData {
 				% bufferLength;
 		System.out.println("max Index right "+maxIndexRight+ " deltaIndex "+deltaIndex+ " valueinver "+valueInver[maxIndexRight]);
 		int distanceFromLastCommand= (maxIndexRight - lastCommandRightIndex+bufferLength) % bufferLength;
-		if(distanceFromLastCommand < 6 ){
+		if(distanceFromLastCommand < 10 ){
 			System.out.println("distace right "+distanceFromLastCommand+" lastcommd "+lastCommandRightIndex);
 			return;
 		}
 		distanceFromLastCommand=(maxIndexRight - lastCommandLeftIndex+bufferLength)% bufferLength;
-		if(distanceFromLastCommand<3){
+		if(distanceFromLastCommand<5){
 			System.out.println("distance right from left "+distanceFromLastCommand + " last command right "+lastCommandLeftIndex);
 			return;
 		}
 		if ((valueInver[maxIndexRight] > STRONG_FORCE_THRESHOLD
-				&& deltaIndex <= STRONG_TIME_THRESHOLD)||(valueInver[maxIndexRight]>=3.29 && !alreadyClassify)){
+				&& deltaIndex <= STRONG_TIME_THRESHOLD)){
+				//||(valueInver[maxIndexRight]>=3.29 && !alreadyClassify)){
 //				&& deltaIndex>1) {
 			command.index=maxIndexRight;
 			lastCommandRightIndex=maxIndexRight;
