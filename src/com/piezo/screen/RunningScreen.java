@@ -120,7 +120,7 @@ public class RunningScreen extends GameScreen {
 		if (lastTime != currentTime && running) {
 			for(index= 0;index<objectList.size();index++)
 				objectList.get(index).decreaseTime();
-//			objectList.get(1).decreaseTime();
+
 			lastTime = currentTime;
 
 		}
@@ -168,9 +168,9 @@ public class RunningScreen extends GameScreen {
 		spriteBatch.draw(background, 0, 0, screenWidth, screenHeight);
 		spriteBatch.enableBlending();
 		objectList.get(0).draw(spriteBatch, font, cutleft, cutRight);
-		if (Setting.debug)
-			voltageDiagram.render(spriteBatch);
-		else {
+//		if (Setting.debug)
+//			voltageDiagram.render(spriteBatch);
+		if (!Setting.debug) {
 
 			objectList.get(1).draw(spriteBatch, font, cutleft, cutRight);
 		}
@@ -200,6 +200,8 @@ public class RunningScreen extends GameScreen {
 				objectList.add(index, newObject);
 			}
 		}
+		if (Setting.debug)
+			voltageDiagram.render();
 		if (!running) {
 			this.dispose();
 			game.setScreen(new GameOverScreen(game));

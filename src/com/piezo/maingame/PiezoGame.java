@@ -8,6 +8,7 @@ import com.piezo.screen.ConfigurationScreen;
 import com.piezo.screen.GameOverScreen;
 import com.piezo.screen.MainMenu;
 import com.piezo.screen.RunningScreen;
+
 import com.piezo.util.Config;
 
 public class PiezoGame implements ApplicationListener{
@@ -25,6 +26,7 @@ public class PiezoGame implements ApplicationListener{
 			music.setLooping(true);
 			music.play();
 			setScreen(new MainMenu(this));
+//			setScreen(new TestDiagram(this));
 		}
 		
 	}

@@ -27,7 +27,7 @@ public class ClassificationThread extends Thread{
 						.insertData(data.value, data.valueInver);
 				if( RunningScreen.voltageDiagram!=null) {
 					System.out.println("add value to voltage diagram");
-					RunningScreen.voltageDiagram.addVertex(data.value,data.valueInver);
+					RunningScreen.voltageDiagram.addVertex(data.value,data.valueInver,returnState);
 				}
 //				diagram.insertValue(data.value, data.valueInver, index,returnState);
 				if (returnState.compareTo( currentState)!=0 ){
