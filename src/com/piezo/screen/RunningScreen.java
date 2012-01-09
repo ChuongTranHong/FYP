@@ -127,71 +127,31 @@ public class RunningScreen extends GameScreen {
 
 		if (Gdx.input.justTouched()) {
 			int x = Gdx.input.getX();
+			Command command = PoolStore.commandPool.obtain();
+			command.currentCommand= Command.NORMAL_SHORT_FORCE;
 			if (x > screenWidth / 2) {
-				switch (currentPosition) {
-				case 0:
-					if (objectList.get(0).takeCut(Command.NORMAL_SHORT_FORCE,
-							true)
-							&& running) {
-
-						running = true;
-					} else {
-						running = false;
-
-					}
-					swordX = screenWidth / 2;
-					currentPosition = 1;
-					break;
-				case 1:
-					if(Setting.debug)break;
-					if (objectList.get(1).takeCut(Command.NORMAL_SHORT_FORCE,
-							true)
-							&& running) {
-
-						running = true;
-					} else {
-						running = false;
-
-					}
-					swordX = screenWidth - 100;
-					currentPosition = 2;
-					break;
-				}
-				sound.play(Setting.sound);
+				
+				command.left = false;
+				commandRight(command);
 			} else {
-				switch (currentPosition) {
-				case 1:
-					if (objectList.get(0).takeCut(Command.STRONG_SHORT_FORCE,
-							false)
-							&& running)
-						running = true;
-					else
-						running = false;
-					swordX = 50;
-					currentPosition = 0;
-					break;
-				case 2:
-					if(Setting.debug)break;
-					if (objectList.get(1).takeCut(Command.STRONG_SHORT_FORCE,
-							false)
-							&& running)
-						running = true;
-					else
-						running = false;
-					swordX = screenWidth / 2;
-					currentPosition = 1;
-					break;
-				}
-
-				sound.play(Setting.sound);
+				command.left = true;
+				commandLeft(command);
 			}
-
+			PoolStore.commandPool.free(command);
 			// System.out.println(" x "+x+" y " + y);
 		}
 
 		if (QueueCommand.size() > 0) {
 			Command command = QueueCommand.deQueue();
-			// System.out.println("dequeue new command");
+			 System.out.println("dequeue new command");
+//			if(command.left){
+//				System.out.println(" cut left");
+//				commandLeft(command);
+//				
+//			}else{
+//				System.out.println("cut right");
+//				commandRight(command);
+//			}
 			if (objectList.get(0).takeCut(command.currentCommand, command.left))
 				running = true;
 			else
@@ -246,6 +206,67 @@ public class RunningScreen extends GameScreen {
 		}
 	}
 
+	private void commandRight(Command command){
+		switch (currentPosition) {
+		case 0:
+			if (!(objectList.get(0).takeCut(command.currentCommand, command.left)
+					&& running) )
+			
+
+				running = false;
+//			} else {
+//				running = false;
+//
+//			}
+			System.out.println("position 0 cut right");
+			swordX = screenWidth / 2;
+			currentPosition = 1;
+			break;
+		case 1:
+			if(Setting.debug)break;
+			if (!(objectList.get(1).takeCut(command.currentCommand, command.left)
+					&& running))
+			{
+
+				running = false;
+			} 
+//			else {
+//				running = false;
+//
+//			}
+			System.out.println("position 1 cut right");
+			swordX = screenWidth - 100;
+			currentPosition = 2;
+			break;
+		}
+		sound.play(Setting.sound);
+	}
+	private void commandLeft(Command command){
+		switch (currentPosition) {
+		case 1:
+			if (!(objectList.get(0).takeCut(command.currentCommand, command.left)
+					&& running))
+				running = false;
+			else
+				running = true;
+			swordX = 50;
+			System.out.println("position 1 cut left");
+			currentPosition = 0;
+			break;
+		case 2:
+			if(Setting.debug)break;
+			if (!(objectList.get(1).takeCut(command.currentCommand, command.left)
+					&& running))
+				running = false;
+			else
+				running = true;
+			System.out.println("position 2 cut left");
+			swordX = screenWidth / 2;
+			currentPosition = 1;
+			break;
+		}
+		sound.play(Setting.sound);
+	}
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
 
