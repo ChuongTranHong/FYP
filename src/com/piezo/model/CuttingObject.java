@@ -63,18 +63,18 @@ public abstract class CuttingObject {
 				PoolStore.textPool.free(temp);
 			}
 		}
-		if(cutLeft){
+		if(cutRight){
 			spriteBatch.draw(leftTexture,this.x+50+20*cutStep,height-300);
 			cutStep++;
 			if(cutStep>10){
-				cutLeft=false;
+				cutRight=false;
 				cutStep=0;
 			}
-		}else if(cutRight){
+		}else if(cutLeft){
 			spriteBatch.draw(rightTexture,this.x+textureRegion.getRegionWidth()+50-20*cutStep,height-300);
 			cutStep++;
 			if(cutStep>10){
-				cutRight=false;
+				cutLeft=false;
 				cutStep=0;
 			}
 		}
