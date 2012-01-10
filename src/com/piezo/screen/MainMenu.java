@@ -33,6 +33,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.tablelayout.Table;
 import com.badlogic.gdx.utils.Scaling;
 import com.piezo.maingame.PiezoGame;
 import com.piezo.util.IOIOThread;
+import com.piezo.util.PoolStore;
 
 
 public class MainMenu extends GameScreen {
@@ -85,7 +86,7 @@ public class MainMenu extends GameScreen {
 			public void click(Actor actor, float x, float y) {
 				// TODO Auto-generated method stub
 				System.out.println(" newg game click");
-				game.setScreen(new RunningScreen(game));
+				game.setScreen((PoolStore.runningScreen ==null)? new RunningScreen(game):(PoolStore.runningScreen.reset()));
 			}
 	    });
 

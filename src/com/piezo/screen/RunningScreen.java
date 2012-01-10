@@ -100,6 +100,7 @@ public class RunningScreen extends GameScreen {
 			public void click(Actor actor, float x, float y) {
 				// TODO Auto-generated method stub
 				System.out.println("in click menu");
+//				PoolStore.runningScreen= this;
 				game.setScreen(new MainMenu(game));
 			}
 		});
@@ -112,11 +113,42 @@ public class RunningScreen extends GameScreen {
 		
 		System.out.println("ioio thread start ");
 		score = 0;
+		swordX = 50;
 		currentPosition = 0;
 		running = true;
 
 	}
+	public RunningScreen reset(){
+		score = 0;
+		swordX = 50;
+		for(index=0;index<objectList.size();index++){
+			CuttingObject object = objectList.get(index);
 
+			CuttingObject newObject = PoolStore.poolArray.get(
+					(int) (Math.random() * 3)).obtain();
+			newObject.copySetting(object);
+			newObject.reset();
+
+			objectList.remove(index);
+			object.free();
+
+			objectList.add(index, newObject);
+		}
+		currentPosition=0;
+		running = true;
+		if (Setting.debug && voltageDiagram ==null)
+			voltageDiagram = new VoltageDiagram(0, 0,
+					screenWidth , screenHeight);
+		else if(Setting.debug)
+			voltageDiagram.reset();
+		if(Setting.androidMode){
+			ioio_thread=createIOIOThread();
+			ioio_thread.start();
+		}
+//			objectList.remove(index).free();
+//		objectList.add(object)
+		return this;
+	}
 	public void render(float delta) {
 
 		currentTime = System.currentTimeMillis() / 1000;
@@ -191,6 +223,7 @@ public class RunningScreen extends GameScreen {
 		if (Setting.debug)
 			voltageDiagram.render();
 		if (!running) {
+//			PoolStore.runningScreen=this;
 			this.dispose();
 			game.setScreen(new GameOverScreen(game));
 		}
@@ -227,6 +260,7 @@ public class RunningScreen extends GameScreen {
 			System.out.println("position 1 cut right");
 			swordX = screenWidth - 100;
 			currentPosition = 2;
+			
 			break;
 		}
 		sound.play(Setting.sound);

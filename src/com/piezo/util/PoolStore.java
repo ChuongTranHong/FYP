@@ -8,6 +8,7 @@ import com.piezo.model.Apple;
 import com.piezo.model.Bomb;
 import com.piezo.model.CuttingObject;
 import com.piezo.model.Egg;
+import com.piezo.screen.RunningScreen;
 
 public class PoolStore {
 	public static Pool<Command> commandPool= new Pool<Command>(){
@@ -55,6 +56,7 @@ public class PoolStore {
 		}
 		
 	};
+	public static RunningScreen runningScreen=null;
 	public static List<Pool<? extends CuttingObject>> poolArray= Arrays.asList(applePool, eggPool,bombPool);
 //	public static CuttingObject randomCuttingObject(){
 //		

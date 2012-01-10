@@ -19,15 +19,15 @@ public class VoltageDiagram {
 	final float MAX_VALUE=4;
 	final short ARRAYLENGTH=200;
 	float x,y,width,height;
-	Mesh lineMesh,lineMeshInver;
-	Mesh lineMeshUnit,lineMeshInverUnit;
+//	Mesh lineMesh,lineMeshInver;
+//	Mesh lineMeshUnit,lineMeshInverUnit;
 	private byte [] maxValue,maxValueInver;
-	float [] lineVertices,lineVerticesInver,lineVerticesUnit,lineVerticesInverUnit;
+	float [] lineVertices,lineVerticesInver,lineVerticesUnit;
 //	private byte [] maxValue,maxValueInver;
 	int vertexIndex=0;
 	float incrementX,currentX;
 	ImmediateModeRenderer10 renderer;
-
+	private short index;
 	public VoltageDiagram (float x, float y, float width, float height){
 //		lineMesh = new Mesh(false,200,0,new VertexAttribute(Usage.Position, 2, "a_pos"));
 //			,new VertexAttribute(Usage.ColorPacked, 4, "a_color") );
@@ -57,34 +57,34 @@ public class VoltageDiagram {
 	}
 	public void render(){
 		renderer.begin(GL10.GL_LINES);
-		for(int i=0;i<lineVerticesUnit.length/2;i++){
+		for( index=0;index<lineVerticesUnit.length/2;index++){
 			renderer.color(0.74f, 0.74f, 0.74f, 1f);
-			renderer.vertex(lineVerticesUnit[2*i],lineVerticesUnit[2*i+1],0);
+			renderer.vertex(lineVerticesUnit[2*index],lineVerticesUnit[2*index+1],0);
 		}
 		renderer.end();
 
 		if(vertexIndex >=4){
 			renderer.begin(GL10.GL_LINE_STRIP);
-			for(int i=0;i<vertexIndex/2;i++){
-				if(maxValue[i]==Command.NORMAL_SHORT_FORCE){
+			for( index=0;index<vertexIndex/2;index++){
+				if(maxValue[index]==Command.NORMAL_SHORT_FORCE){
 					renderer.color(0f, 0f, 1f, 1f);
-				}else if(maxValue[i]==Command.STRONG_SHORT_FORCE)
+				}else if(maxValue[index]==Command.STRONG_SHORT_FORCE)
 					renderer.color(0f, 1f, 0f, 1f);
 				else
 					renderer.color(1f, 0f, 0f, 1f);
-				renderer.vertex(lineVertices[2*i],lineVertices[2*i+1],0);
+				renderer.vertex(lineVertices[2*index],lineVertices[2*index+1],0);
 				
 			}
 			renderer.end();
 			renderer.begin(GL10.GL_LINE_STRIP);
-			for(int i=0;i<vertexIndex/2;i++){
-				if(maxValueInver[i]==Command.NORMAL_SHORT_FORCE){
+			for( index=0;index<vertexIndex/2;index++){
+				if(maxValueInver[index]==Command.NORMAL_SHORT_FORCE){
 					renderer.color(0f, 0f, 1f, 1f);
-				}else if(maxValueInver[i]==Command.STRONG_SHORT_FORCE)
+				}else if(maxValueInver[index]==Command.STRONG_SHORT_FORCE)
 					renderer.color(0f, 1f, 0f, 1f);
 				else
 					renderer.color(1f, 0f, 0f, 1f);
-				renderer.vertex(lineVerticesInver[2*i],lineVerticesInver[2*i+1],0);
+				renderer.vertex(lineVerticesInver[2*index],lineVerticesInver[2*index+1],0);
 				
 			}
 			renderer.end();
@@ -95,19 +95,32 @@ public class VoltageDiagram {
 		
 	}
 	public void initUnitLineVertices(){
-		for(int i=0;i<4;i++){
-			lineVerticesUnit[i*4]=x+10;
-			lineVerticesUnit[i*4+1]= 50+i*(height /3)/MAX_VALUE;
-			lineVerticesUnit[i*4+2]=x+width/2-10;
-			lineVerticesUnit[i*4+3]= 50+ i* (height /3)/MAX_VALUE;
+		for( index=0;index<4;index++){
+			lineVerticesUnit[index*4]=x+10;
+			lineVerticesUnit[index*4+1]= 50+index*(height /3)/MAX_VALUE;
+			lineVerticesUnit[index*4+2]=x+width/2-10;
+			lineVerticesUnit[index*4+3]= 50+ index* (height /3)/MAX_VALUE;
 		}
-		for(int i=4;i<8;i++){
-			lineVerticesUnit[i*4]=x+ width/2+10;
-			lineVerticesUnit[i*4+1]= 50+(i-4)*(height /3)/MAX_VALUE;
-			lineVerticesUnit[i*4+2]=x+width-10;
-			lineVerticesUnit[i*4+3]= 50+ (i-4)* (height /3)/MAX_VALUE;
+		for( index=4;index<8;index++){
+			lineVerticesUnit[index*4]=x+ width/2+10;
+			lineVerticesUnit[index*4+1]= 50+(index-4)*(height /3)/MAX_VALUE;
+			lineVerticesUnit[index*4+2]=x+width-10;
+			lineVerticesUnit[index*4+3]= 50+ (index-4)* (height /3)/MAX_VALUE;
 		}
 		
+	}
+	public void reset(){
+		for(index = 0;index<maxValue.length;index++){
+			maxValue[index]=0;
+			maxValueInver[index]=0;
+		}
+		for(index=0;index<lineVertices.length;index++){
+			lineVertices[index]=0;
+			lineVerticesInver[index]=0;
+		}
+		currentX=x;
+		vertexIndex=0;
+//		for();
 	}
 	public void addVertex(float value,float valueInver,Command command){
 		
