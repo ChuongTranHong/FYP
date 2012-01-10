@@ -21,7 +21,7 @@ public class Bomb extends CuttingObject{
 		currentLife=lifeSpan;
 		texture=new Texture(Gdx.files.internal(Config.asString("bombTexture")));
 		textureRegion = new TextureRegion(texture);
-		initTimer = Config.asByte("bomb.Timer", (byte) 5);
+		initTimer = Config.asByte("bomb.Timer", (byte) 3);
 		timer = new Timer(initTimer);
 		this.x=0;
 		this.y=0;
@@ -34,7 +34,7 @@ public class Bomb extends CuttingObject{
 		currentLife=lifeSpan;
 		texture=new Texture(Gdx.files.internal(Config.asString("bombTexture")));
 		textureRegion = new TextureRegion(texture);
-		initTimer = Config.asByte("bomb.Timer", (byte) 5);
+		initTimer = Config.asByte("bomb.Timer", (byte) 3);
 		timer = new Timer(initTimer);
 
 		this.x=x;

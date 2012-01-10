@@ -45,6 +45,7 @@ public class BufferData {
 	// private IOIOSimpleApp mainActivity;
 	private Command command=new Command();
 	boolean refresh = false;
+	private byte continousLeft=0, continousRight=0;
 	public short getIndex() {
 		return index;
 	}
@@ -67,11 +68,7 @@ public class BufferData {
 	}
 
 	public Command insertData(float data, float dataInver) {
-		/*
-		 * if (data < 0.2) { data = 0; reachZero = true; } if (dataInver < 0.2)
-		 * dataInver = 0; value[index] = (float) Math.round((data * 100)) / 100;
-		 * valueInver[index] = (float) Math.round((dataInver * 100)) / 100;
-		 */
+
 		command.index=-1;
 		command.currentCommand= Command.NOCOMMAND;
 		command.left=true;
@@ -236,12 +233,12 @@ public class BufferData {
 				% bufferLength;
 		System.out.println("max Index left "+maxIndexLeft);
 		int distanceFromLastCommand= (maxIndexLeft - lastCommandLeftIndex+bufferLength) % bufferLength;
-		if(distanceFromLastCommand < 10 ){
+		if(distanceFromLastCommand < ((continousLeft>=2 || continousRight>=2)?15:10 ) ){
 			System.out.println("distace left "+distanceFromLastCommand+" lastcommd "+lastCommandLeftIndex);
 			return;
 		}
 		 distanceFromLastCommand=(maxIndexLeft - lastCommandRightIndex+bufferLength)% bufferLength;
-		if(distanceFromLastCommand<5){
+		if(distanceFromLastCommand<((continousLeft>=2 || continousRight>=2)?15:5 )){
 			System.out.println("distance left from right "+distanceFromLastCommand + " last command right "+lastCommandRightIndex);
 			return;
 		}
@@ -254,6 +251,8 @@ public class BufferData {
 			command.left=true;
 			command.currentCommand= Command.STRONG_SHORT_FORCE;
 			currentState = STRONG_SHORT_FORCE;
+			continousRight=0;
+			continousLeft++;
 			System.out.println("be strong short " + value[maxIndexLeft]
 					+ " at index " + maxIndexLeft);
 		} else if (//value[maxIndexLeft] < NORMAL_FORCE_UPPER_BOUND_THRESHOLD
@@ -266,6 +265,8 @@ public class BufferData {
 			command.left=true;
 			command.currentCommand= Command.NORMAL_SHORT_FORCE;
 			currentState = NORMAL_SHORT_FORCE;
+			continousRight=0;
+			continousLeft++;
 			System.out.println("be normal short " + value[maxIndexLeft]
 					+ " at index " + maxIndexLeft);
 		}else if(possibleToContiue && value[maxIndexLeft]<1){
@@ -278,12 +279,12 @@ public class BufferData {
 				% bufferLength;
 		System.out.println("max Index right "+maxIndexRight+ " deltaIndex "+deltaIndex+ " valueinver "+valueInver[maxIndexRight]);
 		int distanceFromLastCommand= (maxIndexRight - lastCommandRightIndex+bufferLength) % bufferLength;
-		if(distanceFromLastCommand < 10 ){
+		if(distanceFromLastCommand < ((continousLeft>=2 || continousRight>=2)?15:10 )){
 			System.out.println("distace right "+distanceFromLastCommand+" lastcommd "+lastCommandRightIndex);
 			return;
 		}
 		distanceFromLastCommand=(maxIndexRight - lastCommandLeftIndex+bufferLength)% bufferLength;
-		if(distanceFromLastCommand<5){
+		if(distanceFromLastCommand<((continousLeft>=2 || continousRight>=2)?15:5 )){
 			System.out.println("distance right from left "+distanceFromLastCommand + " last command right "+lastCommandLeftIndex);
 			return;
 		}
@@ -296,6 +297,8 @@ public class BufferData {
 			command.left=false;
 			command.currentCommand= Command.STRONG_SHORT_FORCE;
 			currentState = STRONG_SHORT_FORCE;
+			continousRight++;
+			continousLeft=0;
 			System.out.println("be strong short " + valueInver[maxIndexRight]
 					+ " at index " + maxIndexRight);
 		} else if (//valueInver[maxIndexRight] < NORMAL_FORCE_UPPER_BOUND_THRESHOLD
@@ -308,6 +311,8 @@ public class BufferData {
 			command.left=false;
 			command.currentCommand= Command.NORMAL_SHORT_FORCE;
 			currentState = NORMAL_SHORT_FORCE;
+			continousRight++;
+			continousLeft=0;
 			System.out.println("be normal short " + valueInver[maxIndexRight]
 					+ " at index " + maxIndexRight);
 		} else if(possibleToContiue && valueInver[maxIndexRight]<1){
