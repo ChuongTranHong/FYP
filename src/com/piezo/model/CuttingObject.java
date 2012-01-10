@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Pool;
 import com.piezo.util.Config;
 import com.piezo.util.PoolStore;
+import com.piezo.util.Setting;
 import com.piezo.util.TextOutput;
 import com.piezo.util.Timer;
 
@@ -53,7 +54,9 @@ public abstract class CuttingObject {
 		if(!bomb)spriteBatch.draw(textureLifeSpan,this.x+50,height -50,0f,0f,textureLifeSpan.getRegionWidth(),textureLifeSpan.getRegionHeight(),currentRatio,1f,0f);
 
 		timer.render(spriteBatch, font,this.x+width-50,this.y+height-50);
-		spriteBatch.draw(textureRegion, this.x+50, height- 400);
+		if(!Setting.debug)
+			spriteBatch.draw(textureRegion, this.x+50, height- 400);
+		else spriteBatch.draw(textureRegion, this.x+50, height- 300);
 		for(index=0;index<textOutList.size();index++){
 			TextOutput temp=textOutList.get(index);
 			font.draw(spriteBatch, temp.text, this.x+50, height-150+temp.y);
@@ -64,14 +67,18 @@ public abstract class CuttingObject {
 			}
 		}
 		if(cutRight){
-			spriteBatch.draw(leftTexture,this.x+50+20*cutStep,height-300);
+			if(!Setting.debug)
+				spriteBatch.draw(leftTexture,this.x+50+20*cutStep,height-300);
+			else spriteBatch.draw(leftTexture,this.x+50+20*cutStep,height-300); 
 			cutStep++;
 			if(cutStep>10){
 				cutRight=false;
 				cutStep=0;
 			}
 		}else if(cutLeft){
-			spriteBatch.draw(rightTexture,this.x+textureRegion.getRegionWidth()+50-20*cutStep,height-300);
+			if(!Setting.debug)
+				spriteBatch.draw(rightTexture,this.x+textureRegion.getRegionWidth()+50-20*cutStep,height-300);
+			else spriteBatch.draw(rightTexture,this.x+textureRegion.getRegionWidth()+50-20*cutStep,height-100);
 			cutStep++;
 			if(cutStep>10){
 				cutLeft=false;

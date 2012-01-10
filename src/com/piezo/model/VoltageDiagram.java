@@ -46,11 +46,13 @@ public class VoltageDiagram {
 		this.y = y;
 		this.width= width;
 		this.height= height;
-		incrementX= (float)width/ARRAYLENGTH;
+		incrementX= (float)(width-20)/(2*ARRAYLENGTH);
 		currentX=x;
 	
 
 		initUnitLineVertices();
+//		for(int i =0;i<100;i++) this.addVertex(3, 2, null);
+//		for(int i=0;i<50;i++)this.addVertex(2.5f, 3, null);
 		System.out.println(" in the voltage diagram construcure ");
 	}
 	public void render(){
@@ -94,15 +96,15 @@ public class VoltageDiagram {
 	}
 	public void initUnitLineVertices(){
 		for(int i=0;i<4;i++){
-			lineVerticesUnit[i*4]=x;
-			lineVerticesUnit[i*4+1]= height*2/3-50+i*(height /3)/MAX_VALUE;
-			lineVerticesUnit[i*4+2]=x+width;
-			lineVerticesUnit[i*4+3]= height*2/3-50+ i* (height /3)/MAX_VALUE;
+			lineVerticesUnit[i*4]=x+10;
+			lineVerticesUnit[i*4+1]= 50+i*(height /3)/MAX_VALUE;
+			lineVerticesUnit[i*4+2]=x+width/2-10;
+			lineVerticesUnit[i*4+3]= 50+ i* (height /3)/MAX_VALUE;
 		}
 		for(int i=4;i<8;i++){
-			lineVerticesUnit[i*4]=x;
+			lineVerticesUnit[i*4]=x+ width/2+10;
 			lineVerticesUnit[i*4+1]= 50+(i-4)*(height /3)/MAX_VALUE;
-			lineVerticesUnit[i*4+2]=x+width;
+			lineVerticesUnit[i*4+2]=x+width-10;
 			lineVerticesUnit[i*4+3]= 50+ (i-4)* (height /3)/MAX_VALUE;
 		}
 		
@@ -111,11 +113,11 @@ public class VoltageDiagram {
 		
 		if(vertexIndex>=400){
 			vertexIndex=0;
-			currentX=x;
+			currentX=x+10;
 		}
 		maxValue[vertexIndex/2]=0;
 		maxValueInver[vertexIndex/2]=0;
-		if(command.currentCommand == Command.NORMAL_SHORT_FORCE || command.currentCommand == Command.STRONG_SHORT_FORCE){
+		if(command!=null && (command.currentCommand == Command.NORMAL_SHORT_FORCE || command.currentCommand == Command.STRONG_SHORT_FORCE)){
 			if(command.left){
 				if(command.currentCommand==Command.STRONG_SHORT_FORCE)
 					maxValue[command.index]=1;
@@ -134,8 +136,8 @@ public class VoltageDiagram {
 		Float valInver = (float)(valueInver/MAX_VALUE)*(height/3);
 		currentX+=incrementX;
 		lineVertices[vertexIndex]= currentX;
-		lineVerticesInver[vertexIndex++]=currentX;
-		lineVertices[vertexIndex]= height*2/3-50+val;
+		lineVerticesInver[vertexIndex++]=currentX+width/2;
+		lineVertices[vertexIndex]= 50+val;
 //		System.out.println("current x "+currentX+ " y "+height*2/3+val+" inv "+50+valInver);
 		lineVerticesInver[vertexIndex++]=50+valInver;
 

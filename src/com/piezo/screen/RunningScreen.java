@@ -76,12 +76,14 @@ public class RunningScreen extends GameScreen {
 				Gdx.files.internal("data/sword1.png")));
 		objectList = new ArrayList<CuttingObject>();
 		objectList.add(new Apple(0, 0, screenWidth / 2, screenHeight - 50));
-		if (!Setting.debug)
+//		if (!Setting.debug)
 			objectList.add(new Egg(screenWidth / 2, 0, screenWidth / 2,
 				screenHeight - 50));
-		else
-			voltageDiagram = new VoltageDiagram(screenWidth / 2, 0,
-					screenWidth / 2, screenHeight);
+		if (Setting.debug)
+//			voltageDiagram = new VoltageDiagram(screenWidth / 2, 0,
+//					screenWidth / 2, screenHeight);
+			voltageDiagram = new VoltageDiagram(0, 0,
+					screenWidth , screenHeight);
 		spriteBatch = new SpriteBatch();
 
 		font = new BitmapFont(Gdx.files.internal("data/c.fnt"),
@@ -156,10 +158,10 @@ public class RunningScreen extends GameScreen {
 		spriteBatch.enableBlending();
 		objectList.get(0).draw(spriteBatch, font, cutleft, cutRight);
 
-		if (!Setting.debug) {
+//		if (!Setting.debug) {
 
 			objectList.get(1).draw(spriteBatch, font, cutleft, cutRight);
-		}
+//		}
 
 		font.draw(spriteBatch, "Score: " + score, screenWidth - 300,
 				screenHeight - 30);
@@ -211,7 +213,7 @@ public class RunningScreen extends GameScreen {
 			currentPosition = 1;
 			break;
 		case 1:
-			if(Setting.debug)break;
+//			if(Setting.debug)break;
 			if (!(objectList.get(1).takeCut(command.currentCommand, command.left)
 					&& running))
 			{
@@ -242,7 +244,7 @@ public class RunningScreen extends GameScreen {
 			currentPosition = 0;
 			break;
 		case 2:
-			if(Setting.debug)break;
+//			if(Setting.debug)break;
 			if (!(objectList.get(1).takeCut(command.currentCommand, command.left)
 					&& running))
 				running = false;
@@ -373,18 +375,18 @@ public class RunningScreen extends GameScreen {
 		if (QueueCommand.size() > 0) {
 			Command command = QueueCommand.deQueue();
 			 System.out.println("dequeue new command");
-//			if(command.left){
-//				System.out.println(" cut left");
-//				commandLeft(command);
-//				
-//			}else{
-//				System.out.println("cut right");
-//				commandRight(command);
-//			}
-			if (objectList.get(0).takeCut(command.currentCommand, command.left))
-				running = true;
-			else
-				running = false;
+			if(command.left){
+				System.out.println(" cut left");
+				commandLeft(command);
+				
+			}else{
+				System.out.println("cut right");
+				commandRight(command);
+			}
+//			if (objectList.get(0).takeCut(command.currentCommand, command.left))
+//				running = true;
+//			else
+//				running = false;
 			sound.play(Setting.sound);
 			PoolStore.commandPool.free(command);
 		}
